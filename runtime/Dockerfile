@@ -1,5 +1,17 @@
 FROM continuumio/anaconda
 
+RUN cp /etc/apt/sources.list /etc/apt/sources.list.backup
+
+RUN echo "deb http://mirrors.aliyun.com/debian/ jessie main non-free contrib" > /etc/apt/sources.list
+
+RUN echo "deb http://mirrors.aliyun.com/debian/ jessie-proposed-updates main non-free contrib" >> /etc/apt/sources.list
+
+RUN echo "deb-src http://mirrors.aliyun.com/debian/ jessie main non-free contrib" >> /etc/apt/sources.list
+
+RUN echo "deb-src http://mirrors.aliyun.com/debian/ jessie-proposed-updates main non-free contrib" >> /etc/apt/sources.list
+
+RUN apt-get update
+
 RUN apt-get install gcc -y;
 RUN apt-get install vim -y;
 RUN apt-get install make -y;
@@ -37,6 +49,6 @@ RUN mkdir src && tar -xvf talib.tar.gz -C src; \
     \
     make && make install
     \
-RUN pip install ta-lib;
+RUN pip install ta-lib -i https://mirrors.aliyun.com/pypi/simple/;
 
 RUN cd ${WORKDIR}
